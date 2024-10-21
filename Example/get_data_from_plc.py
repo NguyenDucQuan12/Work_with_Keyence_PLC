@@ -79,7 +79,7 @@ class read_sensor_from_PLC():
                         # logger.debug("Nhận tín hiệu từ PLC")
 
                         if self.event_queue.qsize() >= self.max_queue_size:
-                            logger.warning("Số lượng tín hiệu tồn động chưa xử lý hết, không thể thêm vào hàng đợi")
+                            logger.warning("Số lượng tín hiệu tồn đọng chưa xử lý hết, không thể thêm vào hàng đợi")
 
                         else:
                             logger.debug('Thêm dữ liệu vào hàng đợi xử lý: %s', current_state)
@@ -132,10 +132,11 @@ class read_sensor_from_PLC():
         logger.debug(f"Địa chỉ mới đã được cập nhật: {self.SENSOR_ADDRESS}")
 
 if __name__ == "__main__":
-    def display():
-        print("Có tín hiệu từ cảm biến gửi đến")
+    def display(event):
+        print(f"Có tín hiệu từ cảm biến gửi đến: {event}")
         
-    plc_reader = read_sensor_from_PLC(function=display)
+    plc_reader = read_sensor_from_PLC()
+    plc_reader.run_process_another_threading(function= display)
 
     while True:
         time.sleep(1)

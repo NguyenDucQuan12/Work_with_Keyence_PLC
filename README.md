@@ -158,3 +158,5 @@ print("Đã kết nối tới PLC")
 
 Nếu nó in ra dòng `Đã kết nối tới PLC` thì có nghĩa là đã kết nối thành công với PLC và ta tiến hành đọc dữ liệu từ các thanh ghi của PLC.  
 # III. Ví dụ
+
+Xem ví dụ cụ thể [Tại đây](Example/get_data_from_plc.py)
