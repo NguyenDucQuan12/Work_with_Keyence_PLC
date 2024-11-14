@@ -16,8 +16,16 @@
   - [3. Lập trình PLC](#3-Lập-trình-PLC)
 - [2. Kết nối PLC với python thông qua MC protocol](#2-Kết-nối-PLC-với-python-thông-qua-MC-protocol)
 
-[III. Ví dụ](#iii-Ví-dụ)
+[III. Đọc ghi dữ liệu PLC](#iii-đọc-ghi-dữ-liệu-plc)
 
+- [1. Kết nối cảm biến PR-G51N với PLC](#1-kết-nối-cảm-biến-pr-g51n-với-plc)
+  - [1. Cấp nguồn cho PLC](#1-cấp-nguồn-cho-plc)
+  - [2. Cấp nguồn cho XC-T34B2](#2-cấp-nguồn-cho-xc-t34b2)
+  - [3. Kết nối cảm biến PRG1N với XC-T34B2](#3-kết-nối-cảm-biến-pr-g51n-với-xc-t34b2)
+  - [4. Viết chương trình với KV Studio](#4-viết-chương-trình-với-kv-studio)
+  - [5. Đọc tín hiệu với Python](#5-đọc-tín-hiệu-với-python)
+
+[IV. Vi dụ](#iv-ví-dụ)
 
 # I. Cài đặt Kv studio
 
