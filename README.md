@@ -222,13 +222,39 @@ Kết quả sẽ là như hình bên dưới:
 
 ![alt text](image/IMG_0902.JPG)
 
+Chúng ta cần ghép nối các `unit` lại với nhau bằng cách cắm các chân của unit ở phía bên cạnh vào với nhau như hình bên dưới.  
+
+![alt text](image/IMG_0922.JPG)
+
+Sau đó đẩy chốt khóa theo hướng chỉ định để `lock` các chi tiết lại với nhau cho chắc chắn.  
+
+![alt text](image/IMG_0923.JPG)
+
+Tuy nhiên để hoàn chỉnh một bộ thì chúng ta cũng cần khối `end unit`, để cho chương trình biết chúng ta đã hoàn thành ghép nối các phần lại với nhau. `End unit` có hình dạng của 1 cái nắp đóng có phần kết nối cuối cùng như hình sau:  
+
+![alt text](image/IMG_0924.JPG)
+
+Hoàn tất 1 bộ sẽ có cấu trúc như sau: Nguồn --> bộ điều khiển lập trình (KV-8000) --> khối trung gian (KV-7000C, còn các đời thấp hơn như KV-5000, KV-3000 thì không cần khối này) --> các unit cần thiết (bộ nhận tín hiệu, bộ truyền tín hiệu, bộ kết nối ethernet dành cho các thiết bị không có cổng ethernet, ...) --> end unit  
+
+![alt text](image/IMG_0927.JPG)
+
+Nếu lắp thiếu `end unit` như hình bên dưới đây thì chương trình sẽ không hoạt động được cũng như không thể kết nối tới `KV-studio`.  
+
+![alt text](image/IMG_0925.JPG)
+
 ### 2. Cấp nguồn cho XC-T34B2
+
+Đây là sơ đồ kết nối của `XC-T34B2` với mỗi thiết bị `input/output` như sau:  
+
+![alt text](image/connect_XC_T34B2.png)
+
+Tham khảo chi tiết [tại đây](Document/XCT34B2.pdf). Vì mỗi thiết bị sẽ có 1 cách kết nối với `XC-T34B2` nên cần xem sơ đồ trước.  
 
 Nguồn của `XC-T34B2` nằm ở 2 chân 17 và 34. Chân 17 sẽ là `dương 24V DC`, chân 34 sẽ là `âm 24V DC`. Ta nối dây vào 2 chân đó.  
 
 ![alt text](image/IMG_0903.JPG)
 
-Hai đầu dây còn lại nối vào nguồn 24V DC từ cục nguồn `MS2-H100` hoặc từ chân `PLC` cũng được.  
+Hai đầu dây còn lại nối vào nguồn `24V DC` từ cục nguồn `MS2-H100` hoặc từ chân `PLC` cũng được.  
 
 ![alt text](image/IMG_0904.JPG)
 
@@ -244,34 +270,36 @@ Với mỗi thiết bị kết nối trực tiếp với `XC-T34B2` sẽ có cá
 > Chân 17 là chân nguồn cực dương  
 > Chân 34 là chân nguồn cực âm  
 > Chân 1 đến 16 sẽ dành cho các dây tín hiệu input. Có nghĩa là các thiết bị truyền tín hiệu vào PLC sẽ cắm ở những chân này, ví dụ như cảm biến (truyền tín hiệu cho PLC khi có vật cản), ...  
-> Chân 17 đến 33 sẽ dành cho các dây tín hiệu output. Có nghĩa là các thiết bị nhận tín hiệu từ PLC sẽ cắm ở đây, ví dụ như chuông (nhận tín hiệu từ PLC để kêu), đèn (nhận tín hiệu từ PLC để sáng hay đổi màu), ...  
+> Chân 18 đến 33 sẽ dành cho các dây tín hiệu output. Có nghĩa là các thiết bị nhận tín hiệu từ PLC sẽ cắm ở đây, ví dụ như chuông (nhận tín hiệu từ PLC để kêu), đèn (nhận tín hiệu từ PLC để sáng hay đổi màu), ...  
 
-Một số loại unit khác chỉ có chức năng `nhận tín hiệu` mà không thể truyền tín hiệu cho các thiết bị kahcs như đèn, chuông, không giống với `KV-C16XTD` vừa có thể `input` và `output` nên cấu trúc cắm dây vào `XC-T34B2` cũng không giống nhau.  
+Một số loại unit khác chỉ có chức năng `nhận tín hiệu` mà không thể truyền tín hiệu cho các thiết bị khác như đèn, chuông, không giống với `KV-C16XTD` vừa có thể `input` và `output` nên cấu trúc cắm dây vào `XC-T34B2` cũng không giống nhau.  
 
-Để hoàn tất kết nối giữa `XC-T34B2` với `KV-C16XTD` thì ta cần cắm dây kết nối 2 thiết bị này lại với nhau như hình bên dưới:  
+Để hoàn tất kết nối giữa `XC-T34B2` với `KV-C16XTD` thì ta cần cắm dây kết nối 2 thiết bị này lại với nhau bằng cáp `XC-H34-03` như hình bên dưới:  
 
 ![alt text](image/connect_kvc16xtd_xct34b2.png)
 
+` Tạm thời hãy bỏ qua 2 con rơ le, 2 con rơ le này dùng để điều khiển đèn 2 màu đỏ vs xanh, mình chưa tìm hiểu được cấu trúc kết nối của nó nên chưa viết tài liệu về nó`  
+
 ### 3. Kết nối cảm biến PR-G51N với XC-T34B2
 
-Cảm biến quang `PR-G51N` sẽ là loại kim loại có 2 đầu, 1 đầu sẽ phát tín hiệu quang, đầu còn lại sẽ thu tín hiệu quang, và 2 đầu cũng sẽ có 1 đầu 4 dây và 1 đầu 3 dây.  
+Cảm biến quang `PR-G51N` sẽ là loại kim loại có 2 đầu, 1 đầu sẽ phát tín hiệu quang, đầu còn lại sẽ thu tín hiệu quang, và 2 đầu cũng sẽ có 1 đầu `4 dây` và 1 đầu `3 dây`.  
 
 ![alt text](image/IMG_0919.JPG)
 
 Trong 4 dây thì:  
 
-> dây nâu: Nối với cực dương  
+> Dây nâu: Nối với cực dương  
 > Dây xanh biển: Nối với cực âm  
 > Dây đen: Tín hiệu 1  
 > Dây trắng: Tín hiệu 2  
 
-Ta ghép nối 2 dây nguồn cùng cực của cảm biến lại với nhau theo cặp: `cùng xanh - cùng naau` như hình dưới:  
+Ta ghép nối 2 dây nguồn cùng cực của cảm biến lại với nhau theo cặp: `cùng xanh - cùng nâu` như hình dưới:  
 
 ![alt text](image/IMG_0908.JPG)
 
-Sau đó nối theo đúng nguồn cho 2 dây. Nếu nối vào nguồn của `XC-T34B2` thì sẽ như sau: 
+Sau đó cấp nguồn cho 2 cảm biến bằng nguồn `24V DC`. Nếu nối vào nguồn của `XC-T34B2` thì sẽ như sau: 
 
-> Dây xanh - vào chân 34: tương ứng với cực âm  
+> Dây xanh nước biển - vào chân 34: tương ứng với cực âm  
 > Dây nâu - vào chân 17: tương ứng với cực dương  
 
 ![alt text](image/IMG_0909.JPG)
@@ -280,7 +308,7 @@ Hoặc cũng có thể nối trực tiếp vào nguồn 24V của `MS2-H100`.  T
 
 ![alt text](image/IMG_0912.JPG)
 
-Các chân còn lại (dây trắng, dây đen của cảm biến 3 dây) dán băng dính để tránh trường hợp tạo tia lửa diện do va quệt.  
+Các chân còn lại (dây trắng của cảm biến 4 dây và dây đen của cảm biến 3 dây) dán băng dính bọc các dây này để tránh trường hợp tạo tia lửa diện do va quệt.  
 
 ### 4. Viết chương trình với KV studio
 
@@ -288,13 +316,13 @@ Mở KV studio và vào chế độ `Editor` và mở bảng `Unit Editor` để
 
 ![alt text](image/edit_mode.png)
 
-Từ hình ảnh ở `edit mode` ta có thể có các thông tin. Nhìn vào `KV-C16XTD` có 2 chỉ số:  
+Từ hình ảnh ở `Unit Editor` ta có thể có các thông tin. Nhìn vào `KV-C16XTD` có 2 chỉ số:  
 
 > X3400: là địa chỉ bắt đầu cho việc đọc các tín hiệu input (từ chân 1 đến chân 16)  
 > Y3410: là địa chỉ bắt đầu cho việc đọc các tín hiệu output (từ chân 18 đến chân 33)
 
 Ở bước `kết nối dây tín hiệu cảm biến` ta đã nối dây tín hiệu vào `chân số 1` của `XC-T34B2` nên ở chương trình code, ta sẽ đọc nó với địa chỉ `X3400`, nếu ta nối dây vào `chân số 2` thì địa chỉ sẽ là `X3401`, ... tương tự với chân 16 thì sẽ có địa chỉ là `X3415`.  
-Còn đối với các thiết bị outpu thì nếu ta nối vào `chân số 18` thì địa chỉ để đọc nó là `Y3410`.  
+Còn đối với các thiết bị output thì nếu ta nối vào `chân số 18` thì địa chỉ để đọc nó là `Y3410`, nối vào `chân số 19` thì địa chỉ để đọc nó là `Y3411`.  
 
 ![alt text](image/get_value_x3400.png)
 
@@ -304,7 +332,7 @@ Như chương trình PLC ở trên, mỗi khi có tín hiệu từ cảm biến 
 
 Khi đó ta tiến hành đọc tín hiệu từ địa chỉ `M1000`. Chứ không phải từ `X3400`, mình không biết lý do tại sao ta ko đọc trực tiếp được từ `X3400` mà phải đọc thông qua địa chỉ `M1000`. Mình muốn tín hiệu qua `Timer` bởi vì mình muốn phải đủ `500ms` thì mới coi đó là tín hiệu, bởi vì có thể vô tình cái gì có thể bay qua cảm biến thì nó đọc luôn tín hiệu. Nó quá nhạy nên phải đếm đủ 500ms thì coi là tín hiệu.  
 
-Nếu các bạn cần độ chính xác tuyệt đối thì Thay `K5 T200` thành `M1000` luôn thì khi `X3400` có tín hiệu thì `M1000` cũng nhận luôn tín hiệu. Và xóa đi dòng thứ 2 là được.  
+Nếu các bạn cần độ chính xác tuyệt đối thì thay `K5 T200` thành `M1000` luôn thì khi `X3400` có tín hiệu thì `M1000` cũng nhận luôn tín hiệu. Và xóa đi dòng thứ 2 là được.  
 
 Để đưa chương trình vào PLC thì ta chỉ cần ấn 1 trong 2 nút `Transfer to PLC` để PLC `KV-8000` ghi nhớ mã này là được.  
 
@@ -324,7 +352,7 @@ Sau đó ấn `OK` hoặc các nút tương tự để chuyển code vào PLC.
 
 pip install pymcprotocol
 ```
-Hoặc tham khảo thông tin chi tiết (tại đây)[https://pypi.org/project/pymcprotocol/]  
+Hoặc tham khảo thông tin chi tiết thư viện tại [trang chủ](https://pypi.org/project/pymcprotocol/).  
 Sau đó kết nối với PLC thông qua địa chỉ `IP và Port` tương tứng. Với PLC của mình có `IP: 192.168.0.111` và cổng mặc định của `MC protocol: 5000`.  
 
 ```python
