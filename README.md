@@ -342,8 +342,19 @@ Hoặc chuyển sang chế độ `monitor` để quan sát chương trình chạ
 
 ![alt text](image/monitor_mode.png)
 
-Sau đó ấn `OK` hoặc các nút tương tự để chuyển code vào PLC.  
+Sau đó ấn `PLC transfer --> monitor mode`để chuyển code vào PLC.  
 
+![alt text](image/convert_code_to_plc.png)
+
+Sau đó nó sẽ hiển thị hộp thoại như hình dưới:  
+
+![alt text](image/convert_code_to_plc2.png)
+
+Nhớ chọn `Select all` và ấn `Execute` để chương trình nạp code.  
+
+![alt text](image/convert_code_to_plc3.png)
+
+Nếu PLC của bạn đang ở chế độ `Run` thì nó sẽ hỏi có muốn ghi đè không, thì cứ việc ấn `Yes` và đợi nó nạp vào PLC là được.  
 ### 5. Đọc tín hiệu với Python  
 
 Đầu tiên ta cần cài đặt thư viện `pymcprotocol` bằng câu lệnh sau:  
