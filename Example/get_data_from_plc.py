@@ -1,6 +1,5 @@
 import pymcprotocol  #pip install pymcprotocol
 import queue
-from tkinter import messagebox
 import logging
 import threading
 import time
@@ -9,7 +8,7 @@ import time
 logger = logging.getLogger(__name__)
 
 class read_sensor_from_PLC():
-    def __init__(self, PLC_IP = "192.168.0.111", PLC_PORT = 5000, SENSOR_ADDRESS = "M1000"  ) :
+    def __init__(self, PLC_IP = "192.168.0.10", PLC_PORT = 5000, SENSOR_ADDRESS = "M1000"  ) :
 
         """
         Class này nhận `IP PLC`, `Port PLC` và `địa chỉ thanh ghi` cần đọc tín hiệu từ PLC  
@@ -18,7 +17,8 @@ class read_sensor_from_PLC():
         
         # Địa chỉ chứa giá trị cần đọc trên PLC Keyence trong KV-studio
         self.SENSOR_ADDRESS = SENSOR_ADDRESS
-        # Tạo khóa để bảo vệ quá trình đọc/ghi địa chỉ
+
+        # Tạo khóa để bảo vệ quá trình ghi địa chỉ
         self.lock = threading.Lock()
 
         # Khởi tạo kết nối MC Protocol
@@ -27,7 +27,7 @@ class read_sensor_from_PLC():
         # Kết nối tới PLC, xử lý ngoại lệ khi không thể kết nối
         try:
             self.mc.connect(PLC_IP, PLC_PORT)
-            logger.info("Đã kết nối tới PLC")
+            logger.debug("Đã kết nối tới PLC")
             self.connected = True
         except Exception as e:
             logger.error(f"Không thể kết nối tới PLC: {e}")
@@ -43,8 +43,8 @@ class read_sensor_from_PLC():
         self.thread.daemon = True
         self.thread.start()
 
-        # Không khởi tạo `process_events` ở đây mà sẽ khởi tạo sau khi có function đã khởi tạo thành công
-        # Bởi nếu thread này chạy mà hàm function chưa được tạo thì sẽ gây ra lỗi
+        # Không khởi tạo `process_events` ở đây mà sẽ khởi tạo sau khi function đã khởi tạo thành công
+        # Bởi nếu thread này chạy mà function chưa được tạo thì sẽ gây ra lỗi
         self.processing_thread = None
 
     def run_process_another_threading(self, function):
@@ -55,32 +55,31 @@ class read_sensor_from_PLC():
 
     def read_sensor_state(self):
         """
-        Đọc tín hiệu từ cảm biến quang PR-G51N thông qua PLC KV-7500  
+        Đọc tín hiệu từ cảm biến quang PR-G51N thông qua PLC KV-8000  
         Tín hiệu sẽ được lưu ở địa chỉ `SENSOR_ADDRESS` khi lập trình PLC  
-        Nếu không có tham số `previous_state` thì trong 1 giây PLC có thể gửi được 3-5 lần tín hiệu  
-        Và như vậy chương trình sẽ phải xử lý 3-5 lần cho mỗi một giây  
+        Nếu không có tham số `previous_state` thì trong 1 giây PLC có thể gửi tới 3-5 lần tín hiệu. Và như vậy chương trình sẽ phải xử lý 3-5 lần cho mỗi một giây  
         Sau khi nhận được tín hiệu từ PLC thì sẽ thêm tín hiệu đó vào hàng đợi `event_queue` để xử lý lần lượt  
         """
-        while self.connected:
-          
+        while self.connected:         
             try:
                 # Đảm bảo rằng không có sự thay đổi địa chỉ trong khi đọc tín hiệu
                 with self.lock:
                     SENSOR_ADDRESS = self.SENSOR_ADDRESS  # Lấy địa chỉ hiện tại an toàn
 
-                wordunits_values = self.mc.batchread_wordunits(headdevice=SENSOR_ADDRESS, readsize=1)
+                # Lấy giá trị tín hiệu từ địa chỉ trên
+                wordunits_values =self.mc.batchread_wordunits(headdevice=SENSOR_ADDRESS, readsize=1)
                 # logger.debug(wordunits_values)
 
                 if wordunits_values:
                     current_state = wordunits_values[0]
+                    logger.debug(f"Nhận tín hiệu từ PLC: {current_state}")
+                    # print(f"Nhận tín hiệu từ PLC: {wordunits_values}")
 
                     # Kiểm tra sự thay đổi trạng thái, từ OFF sang ON, và thêm vào hàng đợi
                     if current_state == 1 and self.previous_state == 0:
-                        # logger.debug("Nhận tín hiệu từ PLC")
 
                         if self.event_queue.qsize() >= self.max_queue_size:
-                            logger.warning("Số lượng tín hiệu tồn đọng chưa xử lý hết, không thể thêm vào hàng đợi")
-
+                            logger.warning("Số lượng tín hiệu tồn động chưa xử lý hết, không thể thêm vào hàng đợi")
                         else:
                             logger.debug('Thêm dữ liệu vào hàng đợi xử lý: %s', current_state)
                             self.event_queue.put(current_state)
@@ -92,14 +91,14 @@ class read_sensor_from_PLC():
                 logger.error(f"Không thể đọc tín hiệu từ cảm biến: {e}")
                 # Đưa giá trị 3 vào hàng đợi khi không thể đọc tín hiệu từ cảm biến
                 self.event_queue.put(3)
-            time.sleep(0.1)
-
+            # Đặt 1 quảng nghỉ giữa các lần đọc tín hiệu, giảm đáng kể tiêu thụ CPU, bởi nếu ko có quảng nghỉ thì nó sẽ cố gắng đọc liên tục giá trị cảm biến nhanh nhất có thể, như vậy tiêu tốn nhiều CPU
+            time.sleep(0.5)
 
     # Hàm này xử lý sự kiện sau khi nhận được tín hiệu từ PLC
     def process_events(self, function):
         """
         Sau khi tín hiệu được thêm vào hàng đợi, có nghĩa là đã sẵn sàng để xử lý  
-
+        Tiến hành chạy hàm xử lý với các giá trị nhận được từ hàng đợi  
         """
         while self.connected:
             # Kiểm tra nếu hàng đợi tồn tại giá trị thì mới bắt đầu lấy giá trị đó ra và xử lý
@@ -119,19 +118,31 @@ class read_sensor_from_PLC():
                 finally:
                     # logger.info("Hoàn thành xử lý nhiệm vụ khi có tín hiệu từ PLC")
                     self.event_queue.task_done()
-            else:
-                time.sleep(0.5)  # Chờ một chút trước khi kiểm tra lại
+            
+            # Đặt quảng nghỉ 0.5s sau trước khi kiểm tra lại các giá trị trong hàng đợi
+            time.sleep(0.5)
 
     def update_sensor_address(self, new_address):
         """
-        Hàm này cho phép thay đổi địa chỉ thanh ghi cảm biến một cách an toàn
+        Dùng để đọc dữ liệu từ 1 thanh ghi khác  
+        Hàm này cho phép thay đổi địa chỉ thanh ghi cảm biến một cách an toàn  
         """        
         with self.lock:
             self.SENSOR_ADDRESS = new_address
 
-        logger.debug(f"Địa chỉ mới đã được cập nhật: {self.SENSOR_ADDRESS}")
+        logger.info(f"Địa chỉ đọc thanh ghi đã được cập nhật: {self.SENSOR_ADDRESS}")
+
+    def write_sensor_address(self, new_value, address):
+        """
+        Ghi giá trị `new_value` vào thành ghi có địa chỉ `address`  
+        """
+        self.mc.batchwrite_wordunits(headdevice=address, values=[new_value])
 
 if __name__ == "__main__":
+
+    """
+    Thay các logger.xxx bằng print, bởi nó đang ghi log vào 1 file
+    """
     def display(event):
         print(f"Có tín hiệu từ cảm biến gửi đến: {event}")
         

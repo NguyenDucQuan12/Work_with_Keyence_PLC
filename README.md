@@ -450,6 +450,91 @@ if __name__ == "__main__":
     while running:
         read_sensor_state(do_somthing)
 ```
+
+Còn thực tế ta sẽ ko đọc bằng hàm này:  
+```python
+def read_sensor_state(function):
+    """
+    Đọc tín hiệu từ cảm biến quang PR-G51N thông qua PLC KV-7500  
+    Nếu không có tham số previous_state thì trong 1 giây PLC có thể gửi được 3-5 lần tín hiệu  
+    Và như vậy chương trình sẽ phải xử lý 3-5 lần cho mỗi một giây
+    """
+    global previous_state
+    try:
+        #read M1000
+        wordunits_values = mc.batchread_wordunits(headdevice=SENSOR_ADDRESS, readsize=1)
+
+        if wordunits_values:
+            current_state = wordunits_values[0]
+
+            # Kiểm tra sự thay đổi trạng thái
+            if current_state == 1 and previous_state == 0:
+                # Nếu trạng thái thay đổi từ TẮT sang BẬT, gọi hàm càn làm việc
+                function()
+
+            # Cập nhật trạng thái trước đó để so sánh lần tiếp theo
+            previous_state = current_state
+
+    except Exception as e:
+        print(f"Lỗi: {str(e)}")
+```
+
+Bởi vì nó là 1 hàm `loop không nghỉ`, nó sẽ tiêu tốn rất nhiều tài nguyên CPU, ta sẽ cần 1 khoảng nghỉ `time.sleep(0.5)` để giảm thiểu tài nguyên. Vì vậy ta cần chỉnh sửa chương trình 1 chút.  
+
+![alt text](image/plc_code_set_timer.png)
+
+Ta thêm 1 khoảng thời gian cho `M1000` như sau:  
+
+![alt text](image/set_timer_for_m1000.png)
+
+Ta cài đặt thời gian cho `M1000` nhận tín hiệu trong bao lâu. Ban đầu ta để nó là 1, có nghĩa là nó sẽ sáng lên trong `10ms`, nếu ta liên tục đọc tín hiệu từ `M1000` mà không ngừng nghỉ thì `OK`, không sao hết. Nhưng chúng ta sẽ đặt 1 khaongr thời gian nghỉ giữa các lần đọc tín hiệu để tối ưu tài nguyên nên việc nó chỉ sáng `10ms` là quá ngắn để chương trình đọc được. Vì vậy ta đã cài cho nó thời gian sáng lên là `50ms`. Thời gian này đủ để chương trình nhận tín hiệu.  
+
+Vì vậy ta thay đổi 1 chút code như sau, ta thêm `time.sleep(0.5)` để nghỉ giữa các lần đọc tín hiệu:  
+
+```python
+def read_sensor_state(self):
+        """
+        Đọc tín hiệu từ cảm biến quang PR-G51N thông qua PLC KV-8000  
+        Tín hiệu sẽ được lưu ở địa chỉ `SENSOR_ADDRESS` khi lập trình PLC  
+        Nếu không có tham số `previous_state` thì trong 1 giây PLC có thể gửi tới 3-5 lần tín hiệu. Và như vậy chương trình sẽ phải xử lý 3-5 lần cho mỗi một giây  
+        Sau khi nhận được tín hiệu từ PLC thì sẽ thêm tín hiệu đó vào hàng đợi `event_queue` để xử lý lần lượt  
+        """
+        while self.connected:         
+            try:
+                # Đảm bảo rằng không có sự thay đổi địa chỉ trong khi đọc tín hiệu
+                with self.lock:
+                    SENSOR_ADDRESS = self.SENSOR_ADDRESS  # Lấy địa chỉ hiện tại an toàn
+
+                # Lấy giá trị tín hiệu từ địa chỉ trên
+                wordunits_values =self.mc.batchread_wordunits(headdevice="M1000", readsize=1)
+                # logger.debug(wordunits_values)
+
+                if wordunits_values:
+                    current_state = wordunits_values[0]
+                    logger.debug(f"Nhận tín hiệu từ PLC: {current_state}")
+                    # print(f"Nhận tín hiệu từ PLC: {wordunits_values}")
+
+                    # Kiểm tra sự thay đổi trạng thái, từ OFF sang ON, và thêm vào hàng đợi
+                    if current_state == 1 and self.previous_state == 0:
+
+                        if self.event_queue.qsize() >= self.max_queue_size:
+                            logger.warning("Số lượng tín hiệu tồn động chưa xử lý hết, không thể thêm vào hàng đợi")
+                        else:
+                            logger.debug('Thêm dữ liệu vào hàng đợi xử lý: %s', current_state)
+                            self.event_queue.put(current_state)
+
+                    # Cập nhật lại biến `self.previous_state` để so sánh lần tiếp theo
+                    self.previous_state = current_state
+
+            except Exception as e:
+                logger.error(f"Không thể đọc tín hiệu từ cảm biến: {e}")
+                # Đưa giá trị 3 vào hàng đợi khi không thể đọc tín hiệu từ cảm biến
+                self.event_queue.put(3)
+            # Đặt 1 quảng nghỉ giữa các lần đọc tín hiệu, giảm đáng kể tiêu thụ CPU, bởi nếu ko có quảng nghỉ thì nó sẽ cố gắng đọc liên tục giá trị cảm biến nhanh nhất có thể, như vậy tiêu tốn nhiều CPU
+            time.sleep(0.5)
+```
+
+Xem code ở mục `Ví dụ `  
 # IV. Ví dụ
 
 Xem ví dụ cụ thể [Tại đây](Example/get_data_from_plc.py)
