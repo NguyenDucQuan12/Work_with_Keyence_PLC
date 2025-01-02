@@ -15,19 +15,16 @@
   - [2. Kết nối bằng ethernet](#2-Kết-nối-bằng-ethernet)
 
 [III. Một số lỗi](#iii-một-số-lỗi)
-
 - [1. Số lượng khối mở rộng kết nối với PLC không khớp nhau giữa thực tế và chương trình kv studio](#1-số-lượng-khối-mở-rộng-kết-nối-với-plc-không-khớp-nhau-giữa-thực-tế-và-chương-trình-kv-studio)
 - [2. Lỗi code dẫn đến lỗi CPU](#2-lỗi-code-dẫn-đến-lỗi-cpu-plc-màu-xanh-nhưng-nó-hiển-thị-lỗi-cpu)
 
 [IV. Đọc ghi dữ liệu PLC](#iv-đọc-ghi-dữ-liệu-plc)
-
 - [1. Phương thức kết nối PLC với máy tính](#1-phương-thức-kết-nối-plc-với-máy-tính)
-
 - [2. Đọc dữ liệu từ cảm biến và truyền tín hiệu điều khiển đèn](#2-đọc-dữ-liệu-từ-cảm-biến-và-truyền-tín-hiệu-điều-khiển-đèn)
     - [1. cấp nguồn cho PLC](#1-cấp-nguồn-cho-plc)
     - [2. Ghép nối PLC và khối mở rộng](#2-ghép-nối-plc-và-khối-mở-rộng)
     - [3. cấp nguồn cho XC-T34B2C](#3-cấp-nguồn-cho-xc-t34b2)
-    - [4. cấp nguồn cho PLC](#4-kết-nối-cảm-biến-pr-g51n-với-xc-t34b2)
+    - [4. Kết nối cảm biến PR-G51N với XC-T34B2](#4-kết-nối-cảm-biến-pr-g51n-với-xc-t34b2)
     - [5. Viết chương trình với KV Studio](#5-viết-chương-trình-với-kv-studio)
     - [6. Đọc tín hiệu với python](#6-đọc-tín-hiệu-với-python)
 
@@ -44,15 +41,15 @@
 
 ## 2. Chạy file cập nhật
 
-> Mặc định file `setup` là bản cài của phương trình KV_Studio phiên bản 6.  
+> Mặc định file `setup` là bản cài của phương trình KV Studio phiên bản 6.  
 
-Sau khi đã chạy file setup thì vào thư mục [kv_studio_update_v11](./kv_studio_setup/KV_Studio_v_11.6) `tải về toàn bộ file zip`, giải nén và chạy file cập nhật lên phiên bản `kv studio version 11.6` hoặc có thể sử dụng [kv_studio_update_v9](./kv_studio_setup/KV_Studio_v_9/) để cập nhật lên phiên bản `kv studio version 9.4`  
+Sau khi đã chạy file `setup` thì vào thư mục [kv_studio_update_v11](./kv_studio_setup/KV_Studio_v_11.6) `tải về toàn bộ file zip`, giải nén và chạy file cập nhật lên phiên bản `KV Studio version 11.6` hoặc có thể sử dụng [kv_studio_update_v9](./kv_studio_setup/KV_Studio_v_9/) để cập nhật lên phiên bản `KV Studio version 9.4`  
 
 ![file cập nhật phiên bản kv studio](image/update_kv_studio_file.png)
 
 # II. Cách sử dụng
 
-## 1. Kết nối PLC với Kv studio
+## 1. Kết nối PLC với KV Studio
 
 Đây là bộ PLC demo, bao gồm **Nguồn 24V, PLC kv-7500, Kv-C32XC, Kv-C32TC**, cổng ethernet sẽ hoạt động nếu khi cắm ethernet mà nó vẫn sáng 2 đèn, nếu không là cổng ethernet có vấn đề.  
 
@@ -76,11 +73,11 @@ Chọn phương thức kết nối là **USB** và nhấn **Ctrl + F5** hoặc b
 
 ![chọn phương thức kết nối](image/connect_plc_via_usb.png)
 
-Nếu gặp lỗi `No valid program in PLC. Stop reading` như hình bên dưới, có nghĩa là PLC `chưa có chương trình ban dầu trong PLC, là PLC mới, chưa có code` xử lý như sau:  
+Nếu gặp lỗi `No valid program in PLC. Stop reading` như hình bên dưới, có nghĩa là PLC `chưa có chương trình ban đầu trong PLC, là PLC mới, chưa có code` xử lý như sau:  
 
 ![alt text](image/No_valid_program_in_PLC.png)
 
-Vì thế ta cần 1 chương trình mới cho PLC. Chọn `File --> New project`  
+Vì thế ta cần tạo 1 chương trình mới cho PLC. Chọn `File --> New project`  
 
 ![alt text](image/new_project.png)
 
