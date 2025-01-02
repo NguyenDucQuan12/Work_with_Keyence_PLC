@@ -13,19 +13,25 @@
 - [1. Kết nối PLC với Kv studio](#1-Kết-nối-PLC-với-Kv-studio)
   - [1. Kết nối bằng cáp USB-A](#1-Kết-nối-bằng-cáp-usb---a)
   - [2. Kết nối bằng ethernet](#2-Kết-nối-bằng-ethernet)
-  - [3. Lập trình PLC](#3-Lập-trình-PLC)
-- [2. Kết nối PLC với python thông qua MC protocol](#2-Kết-nối-PLC-với-python-thông-qua-MC-protocol)
 
-[III. Đọc ghi dữ liệu PLC](#iii-đọc-ghi-dữ-liệu-plc)
+[III. Một số lỗi](#iii-một-số-lỗi)
 
-- [1. Kết nối cảm biến PR-G51N với PLC](#1-kết-nối-cảm-biến-pr-g51n-với-plc)
-  - [1. Cấp nguồn cho PLC](#1-cấp-nguồn-cho-plc)
-  - [2. Cấp nguồn cho XC-T34B2](#2-cấp-nguồn-cho-xc-t34b2)
-  - [3. Kết nối cảm biến PRG1N với XC-T34B2](#3-kết-nối-cảm-biến-pr-g51n-với-xc-t34b2)
-  - [4. Viết chương trình với KV Studio](#4-viết-chương-trình-với-kv-studio)
-  - [5. Đọc tín hiệu với Python](#5-đọc-tín-hiệu-với-python)
+- [1. Số lượng khối mở rộng kết nối với PLC không khớp nhau giữa thực tế và chương trình kv studio](#1-số-lượng-khối-mở-rộng-kết-nối-với-plc-không-khớp-nhau-giữa-thực-tế-và-chương-trình-kv-studio)
+- [2. Lỗi code dẫn đến lỗi CPU](#2-lỗi-code-dẫn-đến-lỗi-cpu-plc-màu-xanh-nhưng-nó-hiển-thị-lỗi-cpu)
 
-[IV. Vi dụ](#iv-ví-dụ)
+[IV. Đọc ghi dữ liệu PLC](#iv-đọc-ghi-dữ-liệu-plc)
+
+- [1. Phương thức kết nối PLC với máy tính](#1-phương-thức-kết-nối-plc-với-máy-tính)
+
+- [2. Đọc dữ liệu từ cảm biến và truyền tín hiệu điều khiển đèn](#2-đọc-dữ-liệu-từ-cảm-biến-và-truyền-tín-hiệu-điều-khiển-đèn)
+    - [1. cấp nguồn cho PLC](#1-cấp-nguồn-cho-plc)
+    - [2. Ghép nối PLC và khối mở rộng](#2-ghép-nối-plc-và-khối-mở-rộng)
+    - [3. cấp nguồn cho XC-T34B2C](#3-cấp-nguồn-cho-xc-t34b2)
+    - [4. cấp nguồn cho PLC](#4-kết-nối-cảm-biến-pr-g51n-với-xc-t34b2)
+    - [5. Viết chương trình với KV Studio](#5-viết-chương-trình-với-kv-studio)
+    - [6. Đọc tín hiệu với python](#6-đọc-tín-hiệu-với-python)
+
+[V. Ví dụ](#v-ví-dụ)
 
 # I. Cài đặt Kv studio
 
@@ -108,13 +114,11 @@ Sau đó nó sẽ hiển thị bảng lựa chọn thì ấn vào `Select all(S)
 
 Đợi một lúc để tải các thông số từ PLC lên phần mềm, sau một lúc thì đây sẽ là giao diện nếu kết nối thành công, PLC này đã nạp chương trình nên khi tải thì nó sẽ tải luôn chương trình trong PLC, ví dụ đoạn code trong ảnh:  
 
-## Có 1 lưu ý ở đây, với code PLC, ta không thể lấy trực tiếp giá trị `X3400` mà ta sẽ lấy nó thông qua `M1000`, hiện tại mình chưa biết lỗi này do đâu, và cách xử lý như nào. Vì vậy cần phải thử các giá trị có thể đọc được từ code PLC.  
-
 ![Giao diện khi kết nối thành công](image/theme_when_connected.png)
 
 Ta có thể thấy phía bảng bên trái sẽ là các thiết bị đang kết nối với PLC, Bộ PLC của tôi sẽ có hai khối mở rộng là Kv-C32XC, Kv-C32TC nên nó đang hiển thị đúng, và nếu nó hiển thị đúng thì các khối mở rộng và PLC sẽ có màu xanh. 
 
-# IV. Một số lỗi
+# III. Một số lỗi
 
 ## 1. Số lượng khối mở rộng kết nối với PLC không khớp nhau giữa thực tế và chương trình KV Studio
 
@@ -146,6 +150,12 @@ Bước cuối cùng là nạp chương trình này vào PLC để PLC ghi nhớ
 Khi nạp chương trình vào PLC thì nó sẽ thông báo như hình dưới, chọn `Select all(S)` và ấn `Exxcute(E)` để nạp:  
 
 ![Đồng ý nạp chương trình vào PLC](image/apply_code_to_plc.png)
+
+Sau đó chọn `Yes` để nạp code trống vào PLC.  
+
+![alt text](image/convert_code_to_plc3.png)
+
+### Lưu ý: Nếu trong PLC đã có chương trình code, thì phải quan sát xem code đó có dòng nào màu đỏ không, nếu nó màu đỏ tức là chương trình đang lỗi, nên nạp code vào plc sẽ không chấp nhận, vì vậy hãy sửa code cho đúng hoặc xóa file code đi rồi nạp chương trình vào plc
 
 ## 2. Lỗi code dẫn đến lỗi CPU (PLC màu xanh nhưng nó hiển thị lỗi CPU)
 
@@ -190,12 +200,11 @@ Sau khi chuyển sang thì màn hình sẽ hiển thị màu đỏ. Khi đó ta 
 
 Vậy là đã xóa lỗi thành công.  
 
-### Lưu ý: Nếu trong PLC đã có chương trình code, thì phải quan sát xem code đó có dòng nào màu đỏ không, nếu nó màu đỏ tức là chương trình đang lỗi, nên nạp code vào plc sẽ không chấp nhận, vì vậy hãy sửa code cho đúng hoặc xóa file code đi rồi nạp chương trình vào plc
+# IV. Đọc ghi dữ liệu PLC
 
+## 1. Phương thức kết nối PLC với máy tính
 
-## 2. Kết nối PLC với python thông qua MC protocol
-
-Để kết nối PLC với máy tính bằng python thì ta cần biết được `IP của PLC`, có 2 cách để xem IP. Cách một như đã nói bước 1, mở chế độ `CPU monitor` và chọn `ethernet` để xem IP. Còn cách 2 là dùng phần mềm KV studio, cách này sẽ tiện hơn và mình có thể chỉnh sửa IP sau cho trùng với IP trên máy tính, để nó có thể liên lạc với nhau.  
+Để kết nối PLC với máy tính bằng `python` thì ta cần biết được `IP của PLC`, có 2 cách để xem IP. Cách một như đã nói bước 1, mở chế độ `CPU monitor` và chọn `ethernet` để xem IP. Còn cách 2 là dùng phần mềm KV studio, cách này sẽ tiện hơn và mình có thể chỉnh sửa IP sao cho cùng dải IP trên máy tính, để nó có thể liên lạc với nhau.  
 
 ![Edit ip ethernet](image/edit_ethernet_ip.png)
 
@@ -207,12 +216,18 @@ Từ đây, ta có thể biết được ip của PLC và có thể tùy ý ch�
 IP PLC: `192.168.0.111`, subnet mask: `255.255.0.0`, defaut gateway: `0.0.0.0`  
 MC protocol port(TCP): `5000`
 
-Vậy là đã đủ yêu cầu về PLC, tiếp theo là `python`, ta cần cài đặt thư viện `mc protocol` của Mitsubisi [tại đây](https://github.com/senrust/pymcprotocol) hoặc sử dụng câu lệnh pip:  
+Vậy là đã đủ yêu cầu về PLC, tiếp theo là `python`, ta cần cài đặt thư viện `mc protocol` của **Mitsubisi** [tại đây](https://github.com/senrust/pymcprotocol) hoặc sử dụng câu lệnh pip:  
 ```python
 
 pip install pymcprotocol
 
 ```
+
+### Có 1 lưu ý ở đây, với code PLC, ta không thể lấy trực tiếp giá trị `X3400` mà ta sẽ lấy nó thông qua `M1000`, hiện tại mình chưa biết lỗi này do đâu, và cách xử lý như nào. Vì vậy cần phải thử các giá trị có thể đọc được từ code PLC.  
+
+![Giao diện khi kết nối thành công](image/theme_when_connected.png)
+
+Phía trên là chương trình trong PLC và giá trị địa chỉ ta cần đọc là `X3400`.  
 Cách kết nối bằng python như sau:  
 ```python
 
@@ -239,17 +254,15 @@ print("Đã kết nối tới PLC")
 
 Nếu nó in ra dòng `Đã kết nối tới PLC` thì có nghĩa là đã kết nối thành công với PLC và ta tiến hành đọc dữ liệu từ các thanh ghi của PLC.  
 
-# III. Đọc ghi dữ liệu PLC
-
-## 1. Kết nối cảm biến PR-G51N với PLC
-
-### 1. Cấp nguồn cho PLC
+## 2. Đọc dữ liệu từ cảm biến và truyền tín hiệu điều khiển đèn
 
 Mình sẽ sử dụng nguồn `MS2-H100` để cấp nguồn cho PLC `KV-8000`, bộ ghép nối dùng để đọc và truyền tín hiệu cho cảm biến, đèn, chuông, ... sẽ là `KV-C16XTD`. Để có thể kết nối PLC `KV-8000` với `KV-C16XTD` thì ta cần bộ trung gian `KV-7000C`. Các thiết bị ngoại vi như cảm biến, đèn hay chuông thì sẽ cần đấu nối thông qua `XC-T34B2`.  
 
 ![alt text](image/IMG_0895.JPG)
 
-Hình ảnh phía trên là toàn bộ các `unit` mà chúng ta cần.  
+Hình ảnh phía trên là toàn bộ các `unit` mà chúng ta cần. 
+
+### 1. Cấp nguồn cho PLC
 
 Đầu tiên là nguồn, ta chỉ cần cung cấp cho PLC là nguồn `24V DC` là được, các thiết bị chuyển mạch đáp ứng đầu ra `24V DC` mà ổn định đều có thể thay thế được.  
 
@@ -271,6 +284,8 @@ Kết quả sẽ là như hình bên dưới:
 
 ![alt text](image/IMG_0902.JPG)
 
+### 2. Ghép nối PLC và khối mở rộng
+
 Chúng ta cần ghép nối các `unit` lại với nhau bằng cách cắm các chân của unit ở phía bên cạnh vào với nhau như hình bên dưới.  
 
 ![alt text](image/IMG_0922.JPG)
@@ -291,7 +306,7 @@ Nếu lắp thiếu `end unit` như hình bên dưới đây thì chương trìn
 
 ![alt text](image/IMG_0925.JPG)
 
-### 2. Cấp nguồn cho XC-T34B2
+### 3. Cấp nguồn cho XC-T34B2
 
 Đây là sơ đồ kết nối của `XC-T34B2` với mỗi thiết bị `input/output` như sau:  
 
@@ -329,7 +344,7 @@ Một số loại unit khác chỉ có chức năng `nhận tín hiệu` mà kh�
 
 ` Tạm thời hãy bỏ qua 2 con rơ le, 2 con rơ le này dùng để điều khiển đèn 2 màu đỏ vs xanh, mình chưa tìm hiểu được cấu trúc kết nối của nó nên chưa viết tài liệu về nó`  
 
-### 3. Kết nối cảm biến PR-G51N với XC-T34B2
+### 4. Kết nối cảm biến PR-G51N với XC-T34B2
 
 Cảm biến quang `PR-G51N` sẽ là loại kim loại có 2 đầu, 1 đầu sẽ phát tín hiệu quang, đầu còn lại sẽ thu tín hiệu quang, và 2 đầu cũng sẽ có 1 đầu `4 dây` và 1 đầu `3 dây`.  
 
@@ -359,7 +374,7 @@ Hoặc cũng có thể nối trực tiếp vào nguồn 24V của `MS2-H100`.  T
 
 Các chân còn lại (dây trắng của cảm biến 4 dây và dây đen của cảm biến 3 dây) dán băng dính bọc các dây này để tránh trường hợp tạo tia lửa diện do va quệt.  
 
-### 4. Viết chương trình với KV studio
+### 5. Viết chương trình với KV studio
 
 Mở KV studio và vào chế độ `Editor` và mở bảng `Unit Editor` để quan sát chân địa chỉ đọc ghi dữ liệu như sau:  
 
@@ -404,7 +419,7 @@ Nhớ chọn `Select all` và ấn `Execute` để chương trình nạp code.
 ![alt text](image/convert_code_to_plc3.png)
 
 Nếu PLC của bạn đang ở chế độ `Run` thì nó sẽ hỏi có muốn ghi đè không, thì cứ việc ấn `Yes` và đợi nó nạp vào PLC là được.  
-### 5. Đọc tín hiệu với Python  
+### 6. Đọc tín hiệu với Python  
 
 Đầu tiên ta cần cài đặt thư viện `pymcprotocol` bằng câu lệnh sau:  
 
@@ -595,6 +610,6 @@ def read_sensor_state(self):
 ```
 
 Xem code ở mục `Ví dụ `  
-# IV. Ví dụ
+# V. Ví dụ
 
 Xem ví dụ cụ thể [Tại đây](Example/get_data_from_plc.py)
