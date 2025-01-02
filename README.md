@@ -112,7 +112,11 @@ Sau đó nó sẽ hiển thị bảng lựa chọn thì ấn vào `Select all(S)
 
 ![Giao diện khi kết nối thành công](image/theme_when_connected.png)
 
-Ta có thể thấy phía bảng bên trái sẽ là các thiết bị đang kết nối với PLC, Bộ PLC của tôi sẽ có hai khối mở rộng là Kv-C32XC, Kv-C32TC nên nó đang hiển thị đúng, và nếu nó hiển thị đúng thì các khối mở rộng và PLC sẽ có màu xanh , program: sẽ là các đoạn code PLC  
+Ta có thể thấy phía bảng bên trái sẽ là các thiết bị đang kết nối với PLC, Bộ PLC của tôi sẽ có hai khối mở rộng là Kv-C32XC, Kv-C32TC nên nó đang hiển thị đúng, và nếu nó hiển thị đúng thì các khối mở rộng và PLC sẽ có màu xanh. 
+
+# IV. Một số lỗi
+
+## 1. Số lượng khối mở rộng kết nối với PLC không khớp nhau giữa thực tế và chương trình KV Studio
 
 ![Nếu PLC chưa tương thích](image/Full_PLC2.JPG)
 
@@ -136,14 +140,57 @@ Từ bảng **unit editor** ta bấm vào **select unit** và chọn các thiế
 
 ![Apply các thiết bị](image/apply_open_device.png)
 
-Bước cuối cùng là nạp chương trình này vào PLC để PLC ghi nhớ bằng cách nhấn ** Transfer to PLC**  
+Bước cuối cùng là nạp chương trình này vào PLC để PLC ghi nhớ bằng cách nhấn **Transfer to PLC**  
 ![alt text](image/transfer_to_plc.png)
 
-Khi nạp chương trình vào PLC thì nó sẽ thông báo nhưu hình dưới, chọn `Select all(S)` và ấn `Exxcute(E)` để nạp:  
+Khi nạp chương trình vào PLC thì nó sẽ thông báo như hình dưới, chọn `Select all(S)` và ấn `Exxcute(E)` để nạp:  
 
 ![Đồng ý nạp chương trình vào PLC](image/apply_code_to_plc.png)
 
-Lưu ý: Nếu trong PLC đã có chương trình code, thì phải quan sát xem code đó có dòng nào màu đỏ không, nếu nó màu đỏ tức là chương trình đang lỗi, nên nạp code vào plc sẽ không chấp nhận, vì vậy hãy sửa code cho đúng hoặc xóa file code đi rồi nạp chương trình vào plc
+## 2. Lỗi code dẫn đến lỗi CPU (PLC màu xanh nhưng nó hiển thị lỗi CPU)
+
+![Lỗi do code](image/CPU_Error_ladder_Calc_W128.JPG)
+
+Điều này xảy ra khi code của bạn không hợp lý, có một phần lỗi nên nó sẽ báo lỗi như trên.  
+
+![Code không báo đỏ nhưng không hợp lý](image/Code_error.png)
+
+Bạn có thể thấy code không báo đỏ nhưng khi nạp code này vào PLC thì ngay lập tức xuất hiện lỗi như trên.  
+
+Cách 1 là sửa lại code cho đúng.  
+Cách 2 là xóa code đi, nạp code trống vào và code lại từ đầu nếu bạn không biết sửa code.  
+
+Để xóa code thì các bạn bôi đen toàn bộ code `( Trừ lại 2 dòng cuối) ` như hình ảnh bên dưới:  
+
+![Xóa code](image/clear_code.png)
+
+Sau khi để lại 2 dòng `end` thì ta xóa toàn bộ code và chuyển nó vào PLC:  
+
+![Chuyển code vào PLC](image/convert_blank_code_to_plc.png)
+
+Nhấn `Continue sending` và nhấn `Ignore`.  
+
+![Chuyển code vào PLC](image/ladder_calc_error.png)
+
+Nhớ chọn `Select all` và ấn `Execute` để chương trình nạp code.  
+
+![alt text](image/convert_code_to_plc2.png)
+
+Sau đó chọn `Yes` để nạp code trống vào PLC.  
+
+![alt text](image/convert_code_to_plc3.png)
+
+Như vậy ta đã nạp code trống cho PLC và để mất thông báo lỗi trên PLC thì ta gạt chuyển chế độ của PLC qua `<PRG: Program`, gọi là `PRG mode`.  
+
+![alt text](image/conver_to_PRG_mode.JPG)
+
+Sau khi chuyển sang thì màn hình sẽ hiển thị màu đỏ. Khi đó ta chuyển lại về chế độ `RUN>`, gọi là `RUN mode`.  
+
+![alt text](image/convert_to_RUN_mode.JPG)
+
+Vậy là đã xóa lỗi thành công.  
+
+### Lưu ý: Nếu trong PLC đã có chương trình code, thì phải quan sát xem code đó có dòng nào màu đỏ không, nếu nó màu đỏ tức là chương trình đang lỗi, nên nạp code vào plc sẽ không chấp nhận, vì vậy hãy sửa code cho đúng hoặc xóa file code đi rồi nạp chương trình vào plc
 
 
 ## 2. Kết nối PLC với python thông qua MC protocol
