@@ -32,13 +32,15 @@
 ## 1. Chạy file setup
 
 Để cài đặt phần mềm `kv-studio` ta cần có file setup từ nhà cung cấp.  
-Đầu tiên vào thư mục [kv_studio_setup](./kv_studio_setup/setup.exe) để tải `file setup`về và cài đặt  
+Đầu tiên vào thư mục [kv_studio_setup](./kv_studio_setup/KV_Studio_V_6/setup.exe) để tải `file setup`về và cài đặt  
 
 ![Chạy file setup kv studio](image/setup_kv_studio_file.png)
 
 ## 2. Chạy file cập nhật
 
-Sau khi đã chạy file setup thì vào thư mục [kv_studio_update_v11](./kv_studio_setup/KVS_Update_G_1167.zip) `tải về toàn bộ file zip`, giải nén và chạy file cập nhật lên phiên bản `kv studio version 11.6` hoặc có thể sử dụng [kv_studio_update_v6](./kv_studio_setup/KV%20STUDIO%20Ver.6E.msi) để cập nhật `kv studio version 6.1`  
+> Mặc định file `setup` là bản cài của phương trình KV_Studio phiên bản 6.  
+
+Sau khi đã chạy file setup thì vào thư mục [kv_studio_update_v11](./kv_studio_setup/KV_Studio_v_11.6) `tải về toàn bộ file zip`, giải nén và chạy file cập nhật lên phiên bản `kv studio version 11.6` hoặc có thể sử dụng [kv_studio_update_v9](./kv_studio_setup/KV_Studio_v_9/) để cập nhật lên phiên bản `kv studio version 9.4`  
 
 ![file cập nhật phiên bản kv studio](image/update_kv_studio_file.png)
 
@@ -56,7 +58,7 @@ Kết nối PLC với phần mềm `Kv Studio` có thể dùng cáp **USB-A**, �
 
 ![Cáp usb-a](image/USB-A-B.JPG)
 
-Cắm 1 đầu USA vào PLC và đầu còn lại cắm vào máy tính  
+Cắm 1 đầu USA vào PLC và đầu còn lại (USB) cắm vào máy tính  
 
 ![kết nối plc với phần mềm bằng cáp usb-a](image/USB_PLC.JPG)
 
@@ -68,19 +70,19 @@ Chọn phương thức kết nối là **USB** và nhấn **Ctrl + F5** hoặc b
 
 ![chọn phương thức kết nối](image/connect_plc_via_usb.png)
 
-Nếu gặp lỗi `No valid program in PLC. Stop reading` như hình bên dưới thì xử lý như sau:  
+Nếu gặp lỗi `No valid program in PLC. Stop reading` như hình bên dưới, có nghĩa là PLC `chưa có chương trình ban dầu trong PLC, là PLC mới, chưa có code` xử lý như sau:  
 
 ![alt text](image/No_valid_program_in_PLC.png)
 
-Có nghãi là PLC của bạn chưa có chương trình nào cả. Vì thế ta cần 1 chương trình mới cho PLC. Chọn `File --> New projetc`  
+Vì thế ta cần 1 chương trình mới cho PLC. Chọn `File --> New project`  
 
 ![alt text](image/new_project.png)
 
-Sau đó chọn `PLC model` sao cho đúng với model của bạn. Như mình sử dụng `PLC kv800` thì chọn `KV-8000`, điền tên project và ấn `OK`.  
+Sau đó chọn `PLC model` sao cho đúng với model của bạn. Như mình sử dụng `PLC kv8000` (Ban đầu sử dụng 7500 nhưng đã đổi sang 8000) thì chọn `KV-8000`, điền tên project và ấn `OK`.  
 
 ![alt text](image/automatic_set.png)
 
-Tiếp theo nhấn `Yes` và nhấn `Yes` cho đến khi hiện bảng sau:  
+Tiếp theo nhấn `Yes` và nhấn `Yes` cho đến khi hiện bảng sau (Ở bước này hãy tháo hết các thiết bị đi kèm PLC, chỉ để mỗi PLC kv 8000):  
 
 ![alt text](image/unit_edit.png)
 
