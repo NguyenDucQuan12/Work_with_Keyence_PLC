@@ -126,11 +126,15 @@ Bên dưới là hình ảnh khi PLC không có lỗi, màn hình PLC và các k
 
 ![Nếu PLC chưa tương thích](image/Full_PLC2.JPG)
 
-Nếu PLC không hiển thị đúng với những thiết bị đang kết nối, thì các màu sắc sẽ là màu đỏ, và khi đó ta cần cấu hình cho nó kết nối khớp. Để PLC có thể nhận diện được các khối mở rộng thì ta vào chế độ `Editor` và click vào `Kv-7500`
+Nếu PLC không hiển thị đúng với những thiết bị đang kết nối, thì các màu sắc sẽ là màu đỏ, và khi đó ta cần cấu hình cho nó kết nối khớp.  
 
 ![PLC lỗi không tìm được các khối mở rộng](image/PLC_error1.JPG)
 
-Nhìn vào hình ảnh bên dưới, khi vào cửa sổ `Unit Editor - Edit mode` ta chỉ thấy mỗi thiết bị PLC `kv 8000`. Điều này có nghĩa là bộ PLC của chúng ta có 1 PLC và 2 khối mở rộng, nhưng phần mềm lại không nhận diện được, nên sẽ xảy ra lỗi.  
+Để PLC có thể nhận diện được các khối mở rộng thì ta vào chế độ `Editor` và click vào `Kv-7500`  
+
+![PLC lỗi không tìm được các khối mở rộng](image/open_unit_editor.png)
+
+Nhìn vào hình ảnh bên dưới, khi vào cửa sổ `Unit Editor - Edit mode` ta chỉ thấy mỗi thiết bị PLC `kv 7500` và hình ảnh thực tế bên trên. Điều này có nghĩa là bộ PLC của chúng ta có 1 PLC và 2 khối mở rộng, nhưng phần mềm lại chỉ nhận diện được mỗi plc, nên sẽ xảy ra lỗi.  
 
 ![Thiếu bộ mở rộng](image/miss_open_device.png)  
 
@@ -153,7 +157,7 @@ Khi nạp chương trình vào PLC thì nó sẽ thông báo như hình dưới,
 
 ![Đồng ý nạp chương trình vào PLC](image/apply_code_to_plc.png)
 
-Sau đó chọn `Yes` để nạp code trống vào PLC.  
+Sau đó chọn `Yes`.  
 
 ![alt text](image/convert_code_to_plc3.png)
 
