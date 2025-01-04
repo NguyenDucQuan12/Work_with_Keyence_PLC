@@ -396,13 +396,23 @@ Còn đối với các thiết bị output thì nếu ta nối vào `chân số 
 
 ![alt text](image/get_value_x3400.png)
 
-Như chương trình PLC ở trên, mỗi khi có tín hiệu từ cảm biến thì `X3400` sẽ có tín hiệu, tín hiệu này đi qua một `Timer` có chức năng đếm, nó sẽ đếm nếu tín hiệu kéo dài `500 ms` thì `M1000` sẽ có tín hiệu.
+Ở đây mình nối dây tín hiệu của cảm biến vào chân số 1 nên địa chỉ thanh ghi cần đọc sẽ là `X3400`, vì thế mình chọn `Load` và điền giá trị thanh ghi `X3400`.  
+
+![alt text](image/get_value_x3400_by_load.png)
+
+Như chương trình PLC ở trên, mỗi khi có tín hiệu từ cảm biến thì thanh ghi `X3400` sẽ có tín hiệu, tín hiệu này đi qua một `Timer` có chức năng đếm, nó sẽ đếm nếu tín hiệu kéo dài `500 ms` thì `M1000` sẽ có tín hiệu.
 
 ![alt text](image/timer_PLC.png)
 
 Khi đó ta tiến hành đọc tín hiệu từ địa chỉ `M1000`. Chứ không phải từ `X3400`, mình không biết lý do tại sao ta ko đọc trực tiếp được từ `X3400` mà phải đọc thông qua địa chỉ `M1000`. Mình muốn tín hiệu qua `Timer` bởi vì mình muốn phải đủ `500ms` thì mới coi đó là tín hiệu, bởi vì có thể vô tình cái gì có thể bay qua cảm biến thì nó đọc luôn tín hiệu. Nó quá nhạy nên phải đếm đủ 500ms thì coi là tín hiệu.  
 
-Nếu các bạn cần độ chính xác tuyệt đối thì thay `K5 T200` thành `M1000` luôn thì khi `X3400` có tín hiệu thì `M1000` cũng nhận luôn tín hiệu. Và xóa đi dòng thứ 2 là được.  
+![alt text](image/insert_one_shot_value.png)
+
+Lưu ý ở giá trị `SHOT` có thời gian tính bằng `10ms`. Vì vậy nếu để thời gian quá ngắn thì nó chỉ kịp sáng có `10ms`, điều chỉnh cho phù hợp.  
+
+Nếu các bạn cần độ chính xác tuyệt đối thì thay `K5 T200` thành `M1000` luôn thì khi `X3400` có tín hiệu thì `M1000` cũng nhận luôn tín hiệu. Và xóa đi dòng thứ 2 là được. Ví dụ như hình ảnh bên dưới.  
+
+![alt text](image/no_timer_checkout.png)
 
 Để đưa chương trình vào PLC thì ta chỉ cần ấn 1 trong 2 nút `Transfer to PLC` để PLC `KV-8000` ghi nhớ mã này là được.  
 
@@ -425,6 +435,12 @@ Nhớ chọn `Select all` và ấn `Execute` để chương trình nạp code.
 ![alt text](image/convert_code_to_plc3.png)
 
 Nếu PLC của bạn đang ở chế độ `Run` thì nó sẽ hỏi có muốn ghi đè không, thì cứ việc ấn `Yes` và đợi nó nạp vào PLC là được.  
+
+Để theo dõi sự thay đổi giá trị, hoặc chủ động thay đổi giá trị của các thanh ghi mà không cần cảm biến thì ta làm như sau.  
+
+![alt text](image/watch_real_time_value.png)
+
+Đầu tiên vào chế độ `monitor`, sau đó click `chuột phải` và chọn `Registration monitor window` để theo dõi giá trị thanh ghi đó. Nếu muốn thay đổi giá trị thì ta `click đúp` vào ô `Current value` để thay đổi giá trị nếu nó được phép thay đổi.  
 ### 6. Đọc tín hiệu với Python  
 
 Đầu tiên ta cần cài đặt thư viện `pymcprotocol` bằng câu lệnh sau:  
