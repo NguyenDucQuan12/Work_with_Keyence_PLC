@@ -1,5 +1,5 @@
 # Work_with_Keyence_PLC
-# Cách cấu hình PLC để có thể nhận tín hiệu cảm biến với python
+# Cách cấu hình PLC để có thể nhận tín hiệu cảm biến với python, C#
 
 
 
@@ -18,7 +18,7 @@
 - [1. Số lượng khối mở rộng kết nối với PLC không khớp nhau giữa thực tế và chương trình kv studio](#1-số-lượng-khối-mở-rộng-kết-nối-với-plc-không-khớp-nhau-giữa-thực-tế-và-chương-trình-kv-studio)
 - [2. Lỗi code dẫn đến lỗi CPU](#2-lỗi-code-dẫn-đến-lỗi-cpu-plc-màu-xanh-nhưng-nó-hiển-thị-lỗi-cpu)
 
-[IV. Đọc ghi dữ liệu PLC](#iv-đọc-ghi-dữ-liệu-plc)
+[IV. Đọc ghi dữ liệu PLC bằng python](#iv-đọc-ghi-dữ-liệu-plc-bằng-python)
 - [1. Phương thức kết nối PLC với máy tính](#1-phương-thức-kết-nối-plc-với-máy-tính)
 - [2. Đọc dữ liệu từ cảm biến và truyền tín hiệu điều khiển đèn](#2-đọc-dữ-liệu-từ-cảm-biến-và-truyền-tín-hiệu-điều-khiển-đèn)
     - [1. cấp nguồn cho PLC](#1-cấp-nguồn-cho-plc)
@@ -28,7 +28,10 @@
     - [5. Viết chương trình với KV Studio](#5-viết-chương-trình-với-kv-studio)
     - [6. Đọc tín hiệu với python](#6-đọc-tín-hiệu-với-python)
 
-[V. Ví dụ](#v-ví-dụ)
+[V. Đọc ghi dữ liệu plc bằng C#](#v-đọc-ghi-dữ-liệu-plc-bằng-c)
+- [1. Phương thức socket](#1-phương-thức-socket)
+
+[VI. Ví dụ](#vi-ví-dụ)
 
 # I. Cài đặt Kv studio
 
@@ -199,7 +202,7 @@ Sau khi chuyển sang thì màn hình sẽ hiển thị màu đỏ. Khi đó ta 
 
 Vậy là đã xóa lỗi thành công.  
 
-# IV. Đọc ghi dữ liệu PLC bằng Python với phương thức MC protocol
+# IV. Đọc ghi dữ liệu PLC bằng Python
 
 ## 1. Phương thức kết nối PLC với máy tính
 
@@ -610,7 +613,9 @@ def read_sensor_state(self):
 
 Xem code ở mục `Ví dụ `  
 
-# V. Đọc ghi dữ liệu PLC bằng C# với phương thức Socket
+# V. Đọc ghi dữ liệu PLC bằng C#
+
+## 1. Phương thức Socket
 
 Đối với phương thức Socket thì ta cần 1 số lưu ý.  
 
@@ -625,7 +630,21 @@ Sau đó chỉnh sửa cấu hình `Socket 1` như hình bên dưới, còn các
 
 Chỗ khoanh tròn `đánh dấu 2` có thể thử chuyển đổi xem kết quả như nào.  
 
-ĐÂy là đoạn code ví dụ sử dụng C# để kết nối.  
+Ví dụ về chương trình demo.  
+
+![alt text](image/keyence_c_shape_app.png)
+
+Trong đó:  
+
+> IP: IP của PLC ( Lưu ý kiểm tra xem có ping được đến IP của PLC không, nếu không thì cần cấu hình lại IP của PLC cho cùng dải mạng)  
+> Port: 8501  
+> Vùng nhớ PLC: Địa chỉ thanh ghi cần đọc dữ liệu (ví dụ D1000, X3400, ...)  
+> Dữ liệu: Dữ liệu để ghi vào thanh ghi (ví dụ ghi đè giá trị 10 cho thanh ghi D1000), dùng cho chức năng Ghi  
+> Trạng thái: Trả về kết quả khi dùng chức năng đọc hay ghi  
+> Kết nối: Kết nối đến PLC trước khi đọc hay ghi dữ liệu  
+> Ngắt kết nối: Ngắt kết nối đến PLC để tránh tạo quá nhiều kết nối  
+
+Đây là đoạn code ví dụ sử dụng C# để kết nối.  
 
 ```C#
 using System;
@@ -678,10 +697,10 @@ namespace plcconnect
                 return;
             }
 
-            string address = txtAddress.Text;
+            string address = txtAddress.Text; // Text box chứa địa chỉ cần đọc
 
 
-            string command = $"RD {address}\r\n";
+            string command = $"RD {address}\r\n";  
             byte[] commandBytes = Encoding.ASCII.GetBytes(command);
             /*nói chung tùy plc để kiểu mã hóa nào */
             try
@@ -708,8 +727,8 @@ namespace plcconnect
                 return;
             }
 
-            string address = txtAddress.Text;
-            string data = txtData.Text;
+            string address = txtAddress.Text; // text box chứa địa chỉ
+            string data = txtData.Text;    // text box chứa giá trị cần ghi
 
 
             string command = $"WR {address} {data}\r\n";
@@ -745,6 +764,9 @@ namespace plcconnect
 
 ```
 Chi tiết cụ thể xem [tại đây](Example/Keyence_Socket.zip). Giải nén thư mục này và chạy file `plcconnect.sln`. Lưu ý port cho `phương thức Socket sẽ là 8501`.  
+
+![alt text](image/C_shape_folder.png)
+
 # VI. Ví dụ
 
 Xem ví dụ cụ thể [Tại đây](Example/get_data_from_plc.py)
