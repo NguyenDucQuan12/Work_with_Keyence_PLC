@@ -61,7 +61,7 @@ Kết nối PLC với phần mềm `Kv Studio` có thể dùng cáp **USB-A**, �
 
 ![Cáp usb-a](image/USB-A-B.JPG)
 
-Cắm 1 đầu USA vào PLC và đầu còn lại (USB) cắm vào máy tính  
+Cắm 1 đầu USB-B vào PLC và đầu còn lại (USB-A) cắm vào máy tính  
 
 ![kết nối plc với phần mềm bằng cáp usb-a](image/USB_PLC.JPG)
 
@@ -73,11 +73,11 @@ Chọn phương thức kết nối là **USB** và nhấn **Ctrl + F5** hoặc b
 
 ![chọn phương thức kết nối](image/connect_plc_via_usb.png)
 
-Nếu gặp lỗi `No valid program in PLC. Stop reading` như hình bên dưới, có nghĩa là PLC `chưa có chương trình ban đầu trong PLC, là PLC mới, chưa có code` xử lý như sau:  
+Nếu gặp lỗi `No valid program in PLC. Stop reading` như hình bên dưới, có nghĩa là PLC `chưa có chương trình ban đầu trong PLC, là PLC mới, chưa có code` ta xử lý như sau:  
 
 ![alt text](image/No_valid_program_in_PLC.png)
 
-Vì thế ta cần tạo 1 chương trình mới cho PLC. Chọn `File --> New project`  
+Ta cần tạo 1 chương trình mới cho PLC. Chọn `File --> New project`  
 
 ![alt text](image/new_project.png)
 
@@ -85,11 +85,11 @@ Sau đó chọn `PLC model` sao cho đúng với model của bạn. Như mình s
 
 ![alt text](image/automatic_set.png)
 
-Tiếp theo nhấn `Yes` và nhấn `Yes` cho đến khi hiện bảng sau (Ở bước này hãy tháo hết các thiết bị đi kèm PLC, chỉ để mỗi PLC kv 8000):  
+Tiếp theo nhấn `Yes` và nhấn `Yes` cho đến khi hiện bảng sau (Ở bước này hãy tháo hết các các khối mở rộng đi kèm PLC, chỉ để mỗi PLC kv 8000):  
 
 ![alt text](image/unit_edit.png)
 
-thì đóng nó lại và tiến hành chuyển chương trình trống này cho PLC bằng lệnh `Ctr + F8`  
+thì đóng nó lại và tiến hành chuyển chương trình trống này vào PLC bằng lệnh `Ctr + F8` hoặc nút như hình ảnh bên dưới  
 
 ![alt text](image/tranfer_program_to_PLC.png)
 
@@ -119,13 +119,15 @@ Ta có thể thấy phía bảng bên trái sẽ là các thiết bị đang k�
 
 ## 1. Số lượng khối mở rộng kết nối với PLC không khớp nhau giữa thực tế và chương trình KV Studio
 
+Bên dưới là hình ảnh khi PLC không có lỗi, màn hình PLC và các khối mở rộng sẽ có màu xanh.  
+
 ![Nếu PLC chưa tương thích](image/Full_PLC2.JPG)
 
 Nếu PLC không hiển thị đúng với những thiết bị đang kết nối, thì các màu sắc sẽ là màu đỏ, và khi đó ta cần cấu hình cho nó kết nối khớp. Để PLC có thể nhận diện được các khối mở rộng thì ta vào chế độ `Editor` và click vào `Kv-7500`
 
 ![PLC lỗi không tìm được các khối mở rộng](image/PLC_error1.JPG)
 
-Điều này có nghĩa là bộ PLC của chúng ta có 1 PLC và 2 khối mở rộng, nhưng phần mềm lại không nhận diện được, nên sẽ xảy ra lỗi  
+Nhìn vào hình ảnh bên dưới, khi vào cửa sổ `Unit Editor - Edit mode` ta chỉ thấy mỗi thiết bị PLC `kv 8000`. Điều này có nghĩa là bộ PLC của chúng ta có 1 PLC và 2 khối mở rộng, nhưng phần mềm lại không nhận diện được, nên sẽ xảy ra lỗi.  
 
 ![Thiếu bộ mở rộng](image/miss_open_device.png)  
 
@@ -133,7 +135,7 @@ Nếu PLC không hiển thị đúng với những thiết bị đang kết nố
 
 ![mở chế dộ chỉnh sửa](image/open_unit_editor.png)
 
-Từ bảng **unit editor** ta bấm vào **select unit** và chọn các thiết bị mà bạn đang kết nối với PLC:  
+Từ bảng **unit editor** ta bấm vào **select unit** và chọn các thiết bị mà bạn đang kết nối với PLC, các thiết bị được liệt kê bên dưới, chỉ cần kéo nó ra theo đúng thứ tự:  
 
 ![Chọn các thiết bị tương ứng](image/chose_open_device.png)
 
@@ -144,7 +146,7 @@ Từ bảng **unit editor** ta bấm vào **select unit** và chọn các thiế
 Bước cuối cùng là nạp chương trình này vào PLC để PLC ghi nhớ bằng cách nhấn **Transfer to PLC**  
 ![alt text](image/transfer_to_plc.png)
 
-Khi nạp chương trình vào PLC thì nó sẽ thông báo như hình dưới, chọn `Select all(S)` và ấn `Exxcute(E)` để nạp:  
+Khi nạp chương trình vào PLC thì nó sẽ thông báo như hình dưới, chọn `Select all(S)` và ấn `Excute(E)` để nạp:  
 
 ![Đồng ý nạp chương trình vào PLC](image/apply_code_to_plc.png)
 
@@ -187,7 +189,7 @@ Sau đó chọn `Yes` để nạp code trống vào PLC.
 
 ![alt text](image/convert_code_to_plc3.png)
 
-Như vậy ta đã nạp code trống cho PLC và để mất thông báo lỗi trên PLC thì ta gạt chuyển chế độ của PLC qua `<PRG: Program`, gọi là `PRG mode`.  
+Như vậy ta đã nạp code trống cho PLC và để mất thông báo lỗi trên PLC thì ta gạt cần chuyển chế độ của PLC qua `<PRG: Program`, gọi là `PRG mode`.  
 
 ![alt text](image/conver_to_PRG_mode.JPG)
 
@@ -197,7 +199,7 @@ Sau khi chuyển sang thì màn hình sẽ hiển thị màu đỏ. Khi đó ta 
 
 Vậy là đã xóa lỗi thành công.  
 
-# IV. Đọc ghi dữ liệu PLC
+# IV. Đọc ghi dữ liệu PLC bằng Python với phương thức MC protocol
 
 ## 1. Phương thức kết nối PLC với máy tính
 
@@ -607,6 +609,142 @@ def read_sensor_state(self):
 ```
 
 Xem code ở mục `Ví dụ `  
-# V. Ví dụ
+
+# V. Đọc ghi dữ liệu PLC bằng C# với phương thức Socket
+
+Đối với phương thức Socket thì ta cần 1 số lưu ý.  
+
+Cổng kết nối của nó sẽ là: `8501`.  
+Cần bật chế độ Socket của PLC. Như hình ảnh bên dưới.  
+
+![alt text](image/enable_socket_function.png)
+
+Sau đó chỉnh sửa cấu hình `Socket 1` như hình bên dưới, còn các socket khác thì `disable`.  
+
+![alt text](image/setting_socket1.png)
+
+Chỗ khoanh tròn `đánh dấu 2` có thể thử chuyển đổi xem kết quả như nào.  
+
+ĐÂy là đoạn code ví dụ sử dụng C# để kết nối.  
+
+```C#
+using System;
+using System.Text;
+using System.Windows.Forms;
+using System.Net.Sockets;
+
+namespace plcconnect
+{
+    public partial class Form1 : Form
+    {
+        private TcpClient client;
+        private NetworkStream stream;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+
+            if (stream != null) stream.Close();
+            if (client != null) client.Close();
+            MessageBox.Show("Đã ngắt kết nối!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            string ipAddress = txtIPAddress.Text;
+            int port = int.Parse(txtPort.Text);
+
+            try
+            {
+                client = new TcpClient(ipAddress, port);
+                stream = client.GetStream();
+                MessageBox.Show("Kết nối thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Không thể kết nối: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnRead_Click(object sender, EventArgs e)
+        {
+            if (stream == null || !stream.CanRead)
+            {
+                MessageBox.Show("Chưa kết nối đến PLC.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string address = txtAddress.Text;
+
+
+            string command = $"RD {address}\r\n";
+            byte[] commandBytes = Encoding.ASCII.GetBytes(command);
+            /*nói chung tùy plc để kiểu mã hóa nào */
+            try
+            {
+                stream.Write(commandBytes, 0, commandBytes.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                string response = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+
+                txtResponse.Text = response;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi đọc dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnWrite_Click(object sender, EventArgs e)
+        {
+            if (stream == null || !stream.CanWrite)
+            {
+                MessageBox.Show("Chưa kết nối đến PLC.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string address = txtAddress.Text;
+            string data = txtData.Text;
+
+
+            string command = $"WR {address} {data}\r\n";
+            byte[] commandBytes = Encoding.ASCII.GetBytes(command);
+
+            try
+            {
+                stream.Write(commandBytes, 0, commandBytes.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                string response = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+
+                txtResponse.Text = response;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi ghi dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtIPAddress_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textData_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+
+```
+Chi tiết cụ thể xem [tại đây](Example/Keyence_Socket.zip). Giải nén thư mục này và chạy file `plcconnect.sln`. Lưu ý port cho `phương thức Socket sẽ là 8501`.  
+# VI. Ví dụ
 
 Xem ví dụ cụ thể [Tại đây](Example/get_data_from_plc.py)
