@@ -645,6 +645,8 @@ Trong đó:
 > Vùng nhớ PLC: Địa chỉ thanh ghi cần đọc dữ liệu (ví dụ D1000, X3400, ...)  
 > Dữ liệu: Dữ liệu để ghi vào thanh ghi (ví dụ ghi đè giá trị 10 cho thanh ghi D1000), dùng cho chức năng Ghi  
 > Trạng thái: Trả về kết quả khi dùng chức năng đọc hay ghi  
+> Giá trị theo dõi: Là kết quả giá trị theo gian thực của một thanh ghi (Mỗi lần đọc cách 0.5s)  
+> Bắt đầu theo dõi: Bắt đầu quá trình đọc giá trị thanh ghi theo thời gian thực  
 > Kết nối: Kết nối đến PLC trước khi đọc hay ghi dữ liệu  
 > Ngắt kết nối: Ngắt kết nối đến PLC để tránh tạo quá nhiều kết nối  
 
@@ -767,7 +769,8 @@ namespace plcconnect
 }
 
 ```
-Chi tiết cụ thể xem [tại đây](Example/Keyence_Socket.zip). Giải nén thư mục này và chạy file `plcconnect.sln`. Lưu ý port cho `phương thức Socket sẽ là 8501`.  
+Phần mềm để bạn kết nối tới PLC được tạo sẵn tại [app read data plc](Example/Read_Data_From_PLC_app.zip). Giải nén ra và chạy phần mềm `RDFPLC` là được.  
+Chi tiết cụ thể code xem [tại đây](Example/keyencle_c_sharp_read_data.zip). Giải nén thư mục này và chạy file `plcconnect.sln`. Lưu ý port cho `phương thức Socket sẽ là 8501`.  
 
 ![alt text](image/C_shape_folder.png)
 
