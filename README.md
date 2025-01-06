@@ -391,8 +391,12 @@ Từ hình ảnh ở `Unit Editor` ta có thể có các thông tin. Nhìn vào 
 > X3400: là địa chỉ bắt đầu cho việc đọc các tín hiệu input (từ chân 1 đến chân 16)  
 > Y3410: là địa chỉ bắt đầu cho việc đọc các tín hiệu output (từ chân 18 đến chân 33)
 
-Ở bước `kết nối dây tín hiệu cảm biến` ta đã nối dây tín hiệu vào `chân số 1` của `XC-T34B2` nên ở chương trình code, ta sẽ đọc nó với địa chỉ `X3400`, nếu ta nối dây vào `chân số 2` thì địa chỉ sẽ là `X3401`, ... tương tự với chân 16 thì sẽ có địa chỉ là `X3415`.  
-Còn đối với các thiết bị output thì nếu ta nối vào `chân số 18` thì địa chỉ để đọc nó là `Y3410`, nối vào `chân số 19` thì địa chỉ để đọc nó là `Y3411`.  
+Ở bước `kết nối dây tín hiệu cảm biến` ta đã nối dây tín hiệu vào `chân số 1` của `XC-T34B2` nên ở chương trình code, ta sẽ đọc nó với địa chỉ `X3400`, nếu ta nối dây vào `chân số 2` thì địa chỉ sẽ là `X3401`, ... tương tự với chân 16 thì sẽ có địa chỉ là `X340E`.  
+Còn đối với các thiết bị output thì nếu ta nối vào `chân số 18` thì địa chỉ để đọc nó là `Y3410`, nối vào `chân số 19` thì địa chỉ để đọc nó là `Y341E`.  
+
+![alt text](image/address_kv_c16xtd.png)
+
+Từ hình trên ta có thể biết được địa chỉ chính xác của từng chân. Bắt đầu từ 0 đến E (không phải từ 0 đến 10 rồi 15).  
 
 ![alt text](image/get_value_x3400.png)
 
@@ -408,7 +412,7 @@ Khi đó ta tiến hành đọc tín hiệu từ địa chỉ `M1000`. Chứ kh�
 
 ![alt text](image/insert_one_shot_value.png)
 
-Lưu ý ở giá trị `SHOT` có thời gian tính bằng `10ms`. Vì vậy nếu để thời gian quá ngắn thì nó chỉ kịp sáng có `10ms`, điều chỉnh cho phù hợp.  
+Lưu ý ở giá trị `SHOT` có thời gian tính bằng `10ms`. Vì vậy nếu để thời gian quá ngắn thì nó chỉ sáng có `10ms` sẽ không kịp nhìn vì vậy điều chỉnh cho phù hợp.  
 
 Nếu các bạn cần độ chính xác tuyệt đối thì thay `K5 T200` thành `M1000` luôn thì khi `X3400` có tín hiệu thì `M1000` cũng nhận luôn tín hiệu. Và xóa đi dòng thứ 2 là được. Ví dụ như hình ảnh bên dưới.  
 
