@@ -447,6 +447,7 @@ Nếu PLC của bạn đang ở chế độ `Run` thì nó sẽ hỏi có muốn
 Đầu tiên vào chế độ `monitor`, sau đó click `chuột phải` và chọn `Registration monitor window` để theo dõi giá trị thanh ghi đó. Nếu muốn thay đổi giá trị thì ta `click đúp` vào ô `Current value` để thay đổi giá trị nếu nó được phép thay đổi.  
 ### 6. Đọc tín hiệu với Python  
 
+#### 6.1 Đọc tin hiệu bằng phương thức mc protocol của Mitsubishi
 Đầu tiên ta cần cài đặt thư viện `pymcprotocol` bằng câu lệnh sau:  
 
 ```python
@@ -635,7 +636,9 @@ def read_sensor_state(self):
             time.sleep(0.5)
 ```
 
-Xem code ở mục `Ví dụ `  
+#### 6.2 Đọc tín hiệu bằng phương thức Socket
+
+Xem code ở mục `Example/get_data_from_plc.py` ở class thứ 2 `connect_plc_via_socket` để biết cách kết nối và đọc dữ liệu từ PLC bằng phương thức Socket.  
 
 # V. Đọc ghi dữ liệu PLC bằng C#
 
